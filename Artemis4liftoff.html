@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artemis 4 Liftoff — Kai's Road to the Stars</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --void: #020408;
+      --deep: #050d1a;
+      --navy: #071428;
+      --blue-glow: #1a6cf5;
+      --cyan: #00d4ff;
+      --gold: #f5c842;
+      --orange: #ff6b2b;
+      --white: #e8f4ff;
+      --muted: #6a8aaa;
+      --card-bg: rgba(10, 25, 50, 0.7);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--void);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── STAR FIELD ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px 80px;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to top, var(--void), transparent);
+      z-index: 2;
+    }
+
+    .rocket-launch {
+      font-size: 6rem;
+      margin-bottom: 20px;
+      animation: rocketFloat 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px rgba(255, 107, 43, 0.6));
+    }
+
+    @keyframes rocketFloat {
+      0%, 100% { transform: translateY(0px) rotate(-5deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    .hero-eyebrow {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: fadeSlideUp 1s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      background: linear-gradient(135deg, var(--white) 30%, var(--cyan) 70%, var(--blue-glow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeSlideUp 1s 0.15s ease both;
+      text-shadow: none;
+    }
+
+    .hero-sub {
+      font-size: 1.3rem;
+      color: var(--muted);
+      margin-top: 12px;
+      letter-spacing: 0.05em;
+      animation: fadeSlideUp 1s 0.3s ease both;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 36px;
+      animation: fadeSlideUp 1s 0.45s ease both;
+    }
+
+    .badge {
+      background: rgba(26, 108, 245, 0.15);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── LAYOUT ── */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* ── PHASE BLOCKS ── */
+    .phase {
+      margin-bottom: 70px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .phase.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .phase-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: rgba(0, 212, 255, 0.12);
+      line-height: 1;
+      min-width: 70px;
+    }
+
+    .phase-title-block {}
+
+    .phase-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .phase-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .phase-ages {
+      font-size: 0.9rem;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    .phase-divider {
+      height: 1px;
+      background: linear-gradient(to right, var(--cyan), transparent);
+      margin-bottom: 28px;
+      opacity: 0.3;
+    }
+
+    .phase-motto {
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 22px;
+      padding-left: 16px;
+      border-left: 3px solid var(--gold);
+    }
+
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 212, 255, 0.12);
+      border-radius: 12px;
+      padding: 22px 24px;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 212, 255, 0.08);
+    }
+
+    .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+
+    .card-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card ul li {
+      font-size: 0.95rem;
+      color: #a0bcd8;
+      line-height: 1.6;
+      padding: 3px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .card ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #a0bcd8;
+      line-height: 1.7;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(26,108,245,0.15), rgba(0,212,255,0.05));
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 22px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--cyan), var(--blue-glow));
+    }
+
+    .highlight-box p {
+      font-size: 1rem;
+      color: #b8d4f0;
+      line-height: 1.7;
+    }
+
+    .highlight-box strong {
+      color: var(--cyan);
+    }
+
+    /* ── MILESTONE TABLE ── */
+    .section-heading {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 28px;
+      padding-top: 10px;
+    }
+
+    .section-heading span {
+      color: var(--cyan);
+    }
+
+    .timeline-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .timeline-table th {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    }
+
+    .timeline-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #a0bcd8;
+      vertical-align: top;
+    }
+
+    .timeline-table tr:hover td {
+      background: rgba(0, 212, 255, 0.04);
+      color: var(--white);
+    }
+
+    .timeline-table td:first-child {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .timeline-table td:nth-child(2) {
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .milestone-star {
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* ── RESOURCES ── */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .resource-card {
+      background: rgba(5, 18, 38, 0.8);
+      border: 1px solid rgba(245, 200, 66, 0.2);
+      border-radius: 10px;
+      padding: 18px 20px;
+      transition: border-color 0.3s;
+    }
+
+    .resource-card:hover {
+      border-color: rgba(245, 200, 66, 0.5);
+    }
+
+    .resource-card h4 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .resource-card ul {
+      list-style: none;
+    }
+
+    .resource-card ul li {
+      font-size: 0.88rem;
+      color: #8aa5c0;
+      padding: 3px 0;
+    }
+
+    /* ── QUOTE BLOCK ── */
+    .final-quote {
+      text-align: center;
+      max-width: 720px;
+      margin: 80px auto 40px;
+      padding: 50px 40px;
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      border-radius: 20px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .quote-mark {
+      font-family: 'Orbitron', monospace;
+      font-size: 5rem;
+      color: rgba(0, 212, 255, 0.1);
+      line-height: 0.5;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .final-quote blockquote {
+      font-size: 1.1rem;
+      color: #b8d4f0;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .final-quote .signature {
+      margin-top: 24px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .star-divider {
+      text-align: center;
+      margin: 50px 0;
+      color: rgba(0, 212, 255, 0.2);
+      letter-spacing: 1em;
+      font-size: 0.6rem;
+    }
+
+    /* ── PATHWAY BOX ── */
+    .pathway-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 600px) {
+      .pathway-grid { grid-template-columns: 1fr; }
+    }
+
+    .pathway-option {
+      background: var(--card-bg);
+      border: 1px solid rgba(245, 200, 66, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .pathway-option h4 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .pathway-option ul {
+      list-style: none;
+    }
+
+    .pathway-option ul li {
+      font-size: 0.92rem;
+      color: #8aa5c0;
+      padding: 4px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .pathway-option ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.3); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="rocket-launch">🚀</div>
+  <p class="hero-eyebrow">Mission Brief · Artemis 4 · 2026–2048</p>
+  <h1 class="hero-title">Kai's Road<br>to the Stars</h1>
+  <p class="hero-sub">A 20-Year Plan to Become a NASA Astronaut</p>
+  <div class="hero-badges">
+    <span class="badge">Start: Age 7 · 2026</span>
+    <span class="badge">Pilot License: Age 17</span>
+    <span class="badge">NASA Selection: Age 27</span>
+    <span class="badge">🌕 Lunar Surface: 2050s</span>
+  </div>
+</section>
+
+<!-- ══════════ CONTENT ══════════ -->
+<div class="content">
+
+  <!-- ── PHASE 1 ── -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">01</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase One</div>
+        <div class="phase-title">The Foundation Years</div>
+        <div class="phase-ages">Ages 7–12 · 2026–2031</div>
+      </div>
+    </div>
+    <div class="phase-divider"></div>
+    <p class="phase-motto">"Build the love of learning early."</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <div class="card-title">Academic Goals</div>
+        <ul>
+          <li>Top grades across all subjects</li>
+          <li>Focus: Math, Science, Reading & Writing</li>
+          <li>Science fairs and STEM clubs</li>
+          <li>Basic coding — Scratch, then Python</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔭</div>
+        <div class="card-title">Space Exploration</div>
+        <ul>
+          <li>Visit Kennedy Space Center & Smithsonian</li>
+          <li>Watch NASA launches live</li>
+          <li>Follow Artemis mission updates</li>
+          <li>Age-appropriate space books</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏊</div>
+        <div class="card-title">Physical Development</div>
+        <ul>
+          <li>Regular exercise, good sleep, nutrition</li>
+          <li>Variety of sports for coordination</li>
+          <li>Swimming — core astronaut skill (neutral buoyancy lab)</li>
+          <li>Teamwork and discipline</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧩</div>
+        <div class="card-title">Character Goals</div>
+        <ul>
+          <li>Problem-solving under pressure</li>
+          <li>Chess, puzzles, escape rooms</li>
+          <li>Home responsibilities for reliability</li>
+          <li>Leadership mindset, every day</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="star-divider">★ ★ ★ ★ ★</div>
+
+  <!-- ── PHASE 2 ── -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">02</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase Two</div>
+        <div class="phase-title">The Academic Acceleration Years</div>
+        <div class="phase-ages">Ages 13–17 · 2032–2036</div>
+      </div>
+    </div>
+    <div class="phase-divider"></div>
+    <p class="phase-motto">"Sharpen the mind. Earn the right to fly."</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🎓</div>
+        <div class="card-title">Academic Push</div>
+        <ul>
+          <li>Algebra → Calculus track</li>
+          <li>Physics, Chemistry, Biology</li>
+          <li>AP or IB coursework</li>
+          <li>Target: 3.9+ GPA</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">✈️</div>
+        <div class="card-title">Aviation Pathway</div>
+        <ul>
+          <li>Age 14–15: Ground school</li>
+          <li>Age 16: Flight lessons begin</li>
+          <li>Age 16: Solo flight + Student Pilot Certificate</li>
+          <li>Age 17: <strong style="color:var(--cyan)">Earn Private Pilot License!</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛸</div>
+        <div class="card-title">Extracurriculars</div>
+        <ul>
+          <li>Civil Air Patrol Cadet Program</li>
+          <li>Science Olympiad / FIRST Robotics</li>
+          <li>NASA High School Internship (OSSI)</li>
+          <li>Space Camp, Huntsville AL</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">💪</div>
+        <div class="card-title">Physical & Mental</div>
+        <ul>
+          <li>Cardiovascular fitness, flexibility</li>
+          <li>Martial arts, swimming, cross-country</li>
+          <li>Stress management practice</li>
+          <li>Calm clarity under pressure</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="star-divider">★ ★ ★ ★ ★</div>
+
+  <!-- ── PHASE 3 ── -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">03</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase Three</div>
+        <div class="phase-title">College — Building the Expert Foundation</div>
+        <div class="phase-ages">Ages 18–22 · 2037–2041</div>
+      </div>
+    </div>
+    <div class="phase-divider"></div>
+    <p class="phase-motto">"Become world-class in your field."</p>
+
+    <div class="highlight-box">
+      <p><strong>Target Universities:</strong> MIT, Caltech, Georgia Tech, Purdue, University of Michigan, Stanford — or the Air Force / Naval Academy for the military aviation path.</p>
+    </div>
+
+    <div class="pathway-grid">
+      <div class="pathway-option">
+        <h4>🛠️ Option A — Aerospace Engineering</h4>
+        <ul>
+          <li>Aircraft/spacecraft design & propulsion</li>
+          <li>Aerodynamics and structures</li>
+          <li>Directly applicable to NASA criteria</li>
+          <li>Careers: NASA, SpaceX, Boeing, Lockheed</li>
+        </ul>
+      </div>
+      <div class="pathway-option">
+        <h4>🌌 Option B — Astrophysics / Physics</h4>
+        <ul>
+          <li>Deep theoretical foundation</li>
+          <li>Ideal for science-mission astronauts</li>
+          <li>Pair with engineering or CS minor</li>
+          <li>Ph.D. track opens Mission Specialist role</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cards-grid" style="margin-top:18px;">
+      <div class="card">
+        <div class="card-icon">🧪</div>
+        <div class="card-title">College Action Plan</div>
+        <ul>
+          <li>Maintain 3.7+ GPA</li>
+          <li>NASA OSSI internships, JPL, JSC</li>
+          <li>ROTC (Air Force or Navy) — commission path</li>
+          <li>Contribute to published research</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛩️</div>
+        <div class="card-title">Flight Hours — Keep Building</div>
+        <ul>
+          <li>Earn Instrument Rating</li>
+          <li>Work toward Commercial Pilot License</li>
+          <li>Accumulate 1,000+ flight hours</li>
+          <li>NASA requires 1,000 hrs for pilot path</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="star-divider">★ ★ ★ ★ ★</div>
+
+  <!-- ── PHASE 4 ── -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">04</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase Four</div>
+        <div class="phase-title">Professional Years — Becoming Mission-Ready</div>
+        <div class="phase-ages">Ages 22–26 · 2041–2045</div>
+      </div>
+    </div>
+    <div class="phase-divider"></div>
+    <p class="phase-motto">"Get the hours, get the experience, get noticed."</p>
+
+    <div class="pathway-grid">
+      <div class="pathway-option">
+        <h4>🪖 Military Aviation Path</h4>
+        <ul>
+          <li>Commission as military officer via ROTC</li>
+          <li>Undergraduate pilot training (UPT)</li>
+          <li>Fly tactical jets — build hours fast</li>
+          <li>Apply to Test Pilot School (USAF/Navy TPS)</li>
+          <li>Accumulate 1,000+ hours in jet aircraft</li>
+        </ul>
+      </div>
+      <div class="pathway-option">
+        <h4>🔬 Civilian Engineering Path</h4>
+        <ul>
+          <li>Work at NASA, JPL, SpaceX, or university</li>
+          <li>Lead or contribute to space mission projects</li>
+          <li>Complete Ph.D. (science astronaut track)</li>
+          <li>Build portfolio of technical achievement</li>
+          <li>Commercial Pilot License + hours</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:22px;">
+      <p><strong>NASA Application Requirements:</strong> U.S. citizenship · STEM bachelor's (Master's/Ph.D. preferred) · 2+ years relevant experience OR 1,000+ hours as pilot-in-command of jet aircraft · Pass NASA long-duration spaceflight physical. Applications open every 2–4 years. <strong>Target window: Age 25–26.</strong></p>
+    </div>
+  </div>
+
+  <div class="star-divider">★ ★ ★ ★ ★</div>
+
+  <!-- ── PHASE 5 ── -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">05</div>
+      <div class="phase-title-block">
+        <div class="phase-label">Phase Five</div>
+        <div class="phase-title">Astronaut Candidate Training</div>
+        <div class="phase-ages">Ages 26–27+ · 2045–2048</div>
+      </div>
+    </div>
+    <div class="phase-divider"></div>
+    <p class="phase-motto">"The final frontier of preparation."</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🛸</div>
+        <div class="card-title">NASA ASCAN Program (~2 Years)</div>
+        <ul>
+          <li>T-38 jet proficiency training</li>
+          <li>ISS systems — full certification</li>
+          <li>EVA spacewalk training — Neutral Buoyancy Lab</li>
+          <li>Canadarm2 robotics operation</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <div class="card-title">Advanced Training</div>
+        <ul>
+          <li>Russian language study (Soyuz backup)</li>
+          <li>Water, winter, wilderness survival</li>
+          <li>Team leadership under extreme pressure</li>
+          <li>Mission communication and reporting</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌕</div>
+        <div class="card-title">Mission Assignment</div>
+        <ul>
+          <li>Graduate ASCAN → active astronaut corps</li>
+          <li>Artemis program: lunar surface focus</li>
+          <li>Target: Artemis 4 or lunar mission</li>
+          <li>Timeline: ~2033–2035 mission window</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="star-divider">★ ★ ★ ★ ★</div>
+
+  <!-- ── MILESTONE TABLE ── -->
+  <div class="phase">
+    <h2 class="section-heading">Year-by-Year <span>Milestones</span></h2>
+    <div style="overflow-x:auto;">
+      <table class="timeline-table">
+        <thead>
+          <tr>
+            <th>Age</th>
+            <th>Year</th>
+            <th>Key Milestone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>7</td><td>2026</td><td>STEM enrichment, science museum visits, swimming begins</td></tr>
+          <tr><td>9</td><td>2028</td><td>First science fair entry, coding with Scratch</td></tr>
+          <tr><td>11</td><td>2030</td><td>Join Civil Air Patrol cadet program</td></tr>
+          <tr><td>13</td><td>2032</td><td>Begin ground school / aviation theory</td></tr>
+          <tr><td>14</td><td>2033</td><td>Start actual flight lessons with CFI</td></tr>
+          <tr><td>16</td><td>2035</td><td>Solo flight + Student Pilot Certificate</td></tr>
+          <tr><td>17</td><td>2036</td><td><span class="milestone-star">✈️</span> <strong>Earn Private Pilot License (PPL)</strong></td></tr>
+          <tr><td>18</td><td>2037</td><td>Begin college — Aerospace Engineering or Astrophysics</td></tr>
+          <tr><td>19</td><td>2038</td><td>First NASA internship application (OSSI)</td></tr>
+          <tr><td>20</td><td>2039</td><td>Earn Instrument Rating, 200+ flight hours logged</td></tr>
+          <tr><td>21</td><td>2040</td><td>Undergraduate research / thesis project published</td></tr>
+          <tr><td>22</td><td>2041</td><td><span class="milestone-star">🎓</span> <strong>Graduate college with honors</strong></td></tr>
+          <tr><td>23</td><td>2042</td><td>Professional career begins; earn Commercial Pilot License</td></tr>
+          <tr><td>24</td><td>2043</td><td>800+ flight hours or major mission contribution</td></tr>
+          <tr><td>25</td><td>2044</td><td>1,000+ flight hours; Master's or Ph.D. complete</td></tr>
+          <tr><td>26</td><td>2045</td><td><span class="milestone-star">🚀</span> <strong>Apply to NASA Astronaut Corps</strong></td></tr>
+          <tr><td>27</td><td>2046</td><td><span class="milestone-star">⭐</span> <strong>Selected as NASA Astronaut Candidate</strong></td></tr>
+          <tr><td>29</td><td>2048</td><td>ASCAN training complete — active astronaut corps</td></tr>
+          <tr><td>30+</td><td>2050s</td><td><span class="milestone-star">🌕</span> <strong>Mission assignment — Lunar Surface!</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="star-divider">★ ★ ★ ★ ★</div>
+
+  <!-- ── RESOURCES ── -->
+  <div class="phase">
+    <h2 class="section-heading">Recommended <span>Resources</span></h2>
+    <div class="resource-grid">
+      <div class="resource-card">
+        <h4>📖 Books for Kai</h4>
+        <ul>
+          <li>George's Secret Key to the Universe (age 7–10)</li>
+          <li>Hidden Figures Young Readers' Ed. (10–14)</li>
+          <li>Endurance — Scott Kelly (teen+)</li>
+          <li>An Astronaut's Guide to Life — Hadfield</li>
+          <li>The Right Stuff — Tom Wolfe (HS+)</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>🏫 Programs & Orgs</h4>
+        <ul>
+          <li>Civil Air Patrol — civilairpatrol.com</li>
+          <li>NASA Student Opportunities — nasa.gov</li>
+          <li>Space Camp — spacecamp.com (Huntsville, AL)</li>
+          <li>EAA Young Eagles — free first flights, ages 8–17</li>
+          <li>FIRST Robotics — firstinspires.org</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>✈️ Flight Training</h4>
+        <ul>
+          <li>AOPA — aopa.org</li>
+          <li>FAA Student Pilot Info — faa.gov</li>
+          <li>Find local flight schools + CFIs</li>
+          <li>Civil Air Patrol scholarship flights</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FINAL QUOTE ── -->
+  <div class="final-quote phase">
+    <span class="quote-mark">"</span>
+    <blockquote>
+      The best astronauts aren't just smart — they're curious, disciplined, kind to their teammates, and they never stop learning. Every math problem you solve, every book you read, every hour you spend in the cockpit is one step closer to the stars. You've got 20 years to become extraordinary. That's plenty of time — if you start today.
+    </blockquote>
+    <div class="signature">— For Kai · Mission Begins 2026 · 🌟</div>
+  </div>
+
+</div><!-- /content -->
+
+<footer>
+  <p>Artemis 4 Liftoff · Kai's Astronaut Plan · Prepared April 2026 · Updated Annually</p>
+</footer>
+
+<!-- ══════════ STAR FIELD ══════════ -->
+<script>
+  // Stars
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 280; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.2,
+        alpha: Math.random(),
+        speed: Math.random() * 0.4 + 0.05,
+        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        twinkleDir: Math.random() > 0.5 ? 1 : -1
+      });
+    }
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.alpha += s.twinkleSpeed * s.twinkleDir;
+      if (s.alpha >= 1 || s.alpha <= 0.1) s.twinkleDir *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 230, 255, ${s.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+
+  resize();
+  initStars();
+  drawStars();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  // Scroll reveal
+  const phases = document.querySelectorAll('.phase');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  phases.forEach(p => observer.observe(p));
+</script>
+</body>
+</html>
