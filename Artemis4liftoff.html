@@ -125,6 +125,18 @@
       letter-spacing: 0.15em;
       color: var(--cyan);
       text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+
+    .badge:hover {
+      background: rgba(0, 212, 255, 0.2);
+      border-color: var(--cyan);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.25);
     }
 
     @keyframes fadeSlideUp {
@@ -521,10 +533,10 @@
   <h1 class="hero-title">Kai's Road<br>to the Stars</h1>
   <p class="hero-sub">A 20-Year Plan to Become a NASA Astronaut</p>
   <div class="hero-badges">
-    <span class="badge">Start: Age 7 · 2026</span>
-    <span class="badge">Pilot License: Age 17</span>
-    <span class="badge">NASA Selection: Age 27</span>
-    <span class="badge">🌕 Lunar Surface: 2050s</span>
+    <a class="badge" href="#phase-1">Start: Age 7 · 2026</a>
+    <a class="badge" href="#phase-2">Pilot License: Age 17</a>
+    <a class="badge" href="#phase-4">NASA Selection: Age 27</a>
+    <a class="badge" href="#phase-5">🌕 Lunar Surface: 2050s</a>
   </div>
 </section>
 
@@ -532,7 +544,7 @@
 <div class="content">
 
   <!-- ── PHASE 1 ── -->
-  <div class="phase">
+  <div class="phase" id="phase-1">
     <div class="phase-header">
       <div class="phase-number">01</div>
       <div class="phase-title-block">
@@ -591,7 +603,7 @@
   <div class="star-divider">★ ★ ★ ★ ★</div>
 
   <!-- ── PHASE 2 ── -->
-  <div class="phase">
+  <div class="phase" id="phase-2">
     <div class="phase-header">
       <div class="phase-number">02</div>
       <div class="phase-title-block">
@@ -650,7 +662,7 @@
   <div class="star-divider">★ ★ ★ ★ ★</div>
 
   <!-- ── PHASE 3 ── -->
-  <div class="phase">
+  <div class="phase" id="phase-3">
     <div class="phase-header">
       <div class="phase-number">03</div>
       <div class="phase-title-block">
@@ -714,7 +726,7 @@
   <div class="star-divider">★ ★ ★ ★ ★</div>
 
   <!-- ── PHASE 4 ── -->
-  <div class="phase">
+  <div class="phase" id="phase-4">
     <div class="phase-header">
       <div class="phase-number">04</div>
       <div class="phase-title-block">
@@ -757,7 +769,7 @@
   <div class="star-divider">★ ★ ★ ★ ★</div>
 
   <!-- ── PHASE 5 ── -->
-  <div class="phase">
+  <div class="phase" id="phase-5">
     <div class="phase-header">
       <div class="phase-number">05</div>
       <div class="phase-title-block">
